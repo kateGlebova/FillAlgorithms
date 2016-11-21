@@ -6,8 +6,8 @@ import java.util.*;
 // A Swing application extends javax.swing.JFrame
 public class Frame extends JFrame {
     // Define constants
-    public static final int CANVAS_WIDTH  = 600;
-    public static final int CANVAS_HEIGHT = 600;
+    public static final int CANVAS_WIDTH  = 200;
+    public static final int CANVAS_HEIGHT = 200;
 
     // Declare an instance of the drawing canvas,
     // which is an inner class called DrawCanvas extending javax.swing.JPanel.
@@ -32,24 +32,29 @@ public class Frame extends JFrame {
 
     private class DrawCanvas extends JPanel {
 
-        int originX = 300;
-        int originY = 300;
+        int originX = 100;
+        int originY = 100;
 
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             setBackground(Color.WHITE);
             g.setColor(Color.BLACK);
+            //BezierCurve is drawn considering a canvas center to be the origin
             g.translate(originX, originY);
             ArrayList<Point> CTRLpoints = new ArrayList<Point>() {{
-                add(new Point(-100,-100));
-                add(new Point(-50,100));
-                add(new Point(50,-100));
-                add(new Point(70,-200));
-                add(new Point(-100,-100));
+                add(new Point(-95,-95));
+                add(new Point(-30,95));
+                add(new Point(60,-95));
+                add(new Point(80,-95));
+                add(new Point(-95,-95));
             }};
             BezierCurve curve = new BezierCurve(CTRLpoints, g);
             curve.DrawBezierCurve();
+            //Fill algorithms work considering a canvas top left corner to be the origin
+            g.translate(-originX, -originY);
+            FillAlgorithms f = new FillAlgorithms();
+            f.FloodFill(g, CANVAS_WIDTH, CANVAS_HEIGHT, originX, originY, curve.curvePoints, Color.gray, 40, 40);
         }
     }
 
