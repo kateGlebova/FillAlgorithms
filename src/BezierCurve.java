@@ -21,44 +21,14 @@ public class BezierCurve {
         }
     }
 
-    public void TranslateBezierCurve(int deltaX, int deltaY) {
-        for (int i = 0; i < curvePoints.size(); i++)
-        {
-
-            int x = (int)(curvePoints.get(i).getX() + deltaX);
-            int y = (int)(curvePoints.get(i).getY() + deltaY);
-            painter.drawRect(x, y, 1, 1);
+    public ArrayList<Point> TranslatePoints(int originX, int originY) {
+        ArrayList<Point> translated_points = new ArrayList<Point>();
+        for (int i = 0; i < curvePoints.size(); i++) {
+            int new_x = (int)curvePoints.get(i).getX() + originX;
+            int new_y = (int)curvePoints.get(i).getY() + originY;
+            translated_points.add(new Point(new_x, new_y));
         }
-    }
-
-    public void RotateBezierCurve(double angle) {
-        double radians = Math.toRadians(angle);
-        for (int i = 0; i < curvePoints.size(); i++)
-        {
-            int originalX = (int)(curvePoints.get(i).getX());
-            int originalY =(int)(curvePoints.get(i).getY());
-            int x = rotateX(originalX, originalY, radians);
-            int y = rotateY(originalX, originalY, radians);
-            painter.drawRect(x, y, 1, 1);
-        }
-
-    }
-
-    public void ScaleBezierCurve(double coefficient) {
-        for (int i = 0; i < curvePoints.size(); i++)
-        {
-            int x = (int)(curvePoints.get(i).getX() * coefficient);
-            int y = (int)(curvePoints.get(i).getY() * coefficient);
-            painter.drawRect(x, y, 1, 1);
-        }
-    }
-
-    private int rotateX(int x, int y, double angle_radians) {
-        return (int)(x * Math.cos(angle_radians) - y * Math.sin(angle_radians));
-    }
-
-    private int rotateY(int x, int y, double angle_radians) {
-        return (int)(x * Math.sin(angle_radians) + y * Math.cos(angle_radians));
+        return translated_points;
     }
 
     private void generatePoints() {
